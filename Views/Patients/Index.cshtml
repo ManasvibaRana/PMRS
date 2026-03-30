@@ -1,0 +1,63 @@
+@model PaginatedList<Patient>
+@{ ViewData["Title"] = "Patients"; }
+<h1 class="pmrs-page-title">Patients</h1>
+<div class="pmrs-card p-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+        <form method="get" class="d-flex flex-wrap gap-2 align-items-center">
+            <input type="text" name="searchTerm" value="@ViewBag.SearchTerm" class="form-control form-control-sm rounded-2" placeholder="Search..." style="width: 200px;" />
+            <select name="isActive" class="form-select form-select-sm rounded-2" style="width: 120px;">
+                <option value="">All</option>
+                <option value="true" selected="@(ViewBag.IsActive == true)">Active</option>
+                <option value="false" selected="@(ViewBag.IsActive == false)">Inactive</option>
+            </select>
+            <button type="submit" class="btn btn-outline-secondary btn-sm rounded-2"><i class="bi bi-search"></i></button>
+        </form>
+        <a asp-action="Create" class="btn btn-sm pmrs-btn-primary rounded-2"><i class="bi bi-plus-lg me-1"></i>New patient</a>
+    </div>
+    <div class="table-responsive">
+        <table class="table pmrs-table">
+            <thead>
+                <tr>
+                    <th>ID</th><th>Name</th><th>Age</th><th>Gender</th><th>Phone</th><th>Status</th><th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var p in Model.Items)
+            {
+                <tr>
+                    <td><code class="small">@p.PatientNumber</code></td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@p.Id" class="text-decoration-none fw-600 text-dark">@p.FullName</a>
+                        <div class="text-muted small">@p.Email</div>
+                    </td>
+                    <td>@p.Age</td>
+                    <td>@p.Gender</td>
+                    <td>@p.Phone</td>
+                    <td><span class="pmrs-badge @(p.IsActive ? "bg-success bg-opacity-10 text-success" : "bg-secondary bg-opacity-10 text-secondary")">@(p.IsActive ? "Active" : "Inactive")</span></td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@p.Id" class="btn btn-sm btn-outline-secondary rounded-2">Edit</a>
+                        <a asp-action="Details" asp-route-id="@p.Id" class="btn btn-sm btn-outline-primary rounded-2">View</a>
+                    </td>
+                </tr>
+            }
+            @if (!Model.Items.Any())
+            {
+                <tr><td colspan="7" class="text-center text-muted py-5">No patients found.</td></tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    @if (Model.TotalPages > 1)
+    {
+        <nav class="mt-3">
+            <ul class="pagination pagination-sm justify-content-center mb-0">
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                        <a class="page-link rounded-2 mx-1" asp-action="Index" asp-route-pageNumber="@i" asp-route-searchTerm="@ViewBag.SearchTerm" asp-route-isActive="@ViewBag.IsActive">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+</div>

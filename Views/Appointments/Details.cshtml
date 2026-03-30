@@ -1,0 +1,17 @@
+@model Appointment
+@{ ViewData["Title"] = "Appointment"; }
+<h1 class="pmrs-page-title">@Model.AppointmentNumber</h1>
+<div class="pmrs-card p-4">
+    @if (Model.Status != AppointmentStatus.Cancelled && Model.Status != AppointmentStatus.Completed)
+    {
+        <div class="mb-3"><a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-primary rounded-2">Edit</a></div>
+    }
+    <p class="mb-1"><strong>Patient</strong> <a asp-controller="Patients" asp-action="Details" asp-route-id="@Model.PatientId">@Model.Patient.FullName</a></p>
+    <p class="mb-1"><strong>Doctor</strong> @Model.Doctor.FullName</p>
+    <p class="mb-1"><strong>Date</strong> @Model.ScheduledAt.ToString("MMM dd, yyyy HH:mm") · @Model.DurationMinutes min</p>
+    <p class="mb-1"><strong>Status</strong> <span class="pmrs-badge bg-light text-dark">@Model.Status</span></p>
+    <p class="mb-1"><strong>Chief complaint</strong> @Model.ChiefComplaint</p>
+    @if (!string.IsNullOrEmpty(Model.Notes)) { <p class="text-muted small mb-0">@Model.Notes</p> }
+    <hr class="my-3" />
+    <a asp-action="Index" class="btn btn-outline-secondary rounded-2">Back to list</a>
+</div>

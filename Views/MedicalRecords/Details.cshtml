@@ -1,0 +1,12 @@
+@model MedicalRecord
+@{ ViewData["Title"] = "Record"; }
+<h1 class="pmrs-page-title">@Model.Title <span class="pmrs-badge bg-light text-dark ms-2">@Model.RecordType</span></h1>
+<div class="pmrs-card p-4">
+    <p class="text-muted small mb-3">Patient <a asp-controller="Patients" asp-action="Details" asp-route-id="@Model.PatientId">@Model.Patient.FullName</a> · Doctor @Model.Doctor.FullName · @Model.RecordedAt.ToString("MMM dd, yyyy")</p>
+    <hr class="my-3" />
+    <div class="mb-3">@Model.Content</div>
+    @if (!string.IsNullOrEmpty(Model.Diagnosis)) { <p class="mb-1"><strong>Diagnosis</strong> @Model.Diagnosis</p> }
+    @if (!string.IsNullOrEmpty(Model.Treatment)) { <p class="mb-0"><strong>Treatment</strong> @Model.Treatment</p> }
+    <hr class="my-3" />
+    <a asp-action="Index" class="btn btn-outline-secondary rounded-2">Back to list</a>
+</div>

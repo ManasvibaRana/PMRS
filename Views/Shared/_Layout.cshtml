@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PMRS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <style>
+        :root {
+            --pmrs-bg: #faf9f7;
+            --pmrs-surface: #ffffff;
+            --pmrs-nav: #1e293b;
+            --pmrs-accent: #0d9488;
+            --pmrs-accent-hover: #0f766e;
+            --pmrs-muted: #64748b;
+            --pmrs-border: #e2e8f0;
+        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--pmrs-bg); color: #334155; }
+        .pmrs-nav { background: var(--pmrs-nav) !important; padding: 0.5rem 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+        .pmrs-nav .navbar-brand { font-weight: 700; font-size: 1.2rem; color: #fff !important; }
+        .pmrs-nav .nav-link { color: rgba(255,255,255,.85) !important; font-weight: 500; padding: 0.5rem 0.75rem; border-radius: 6px; margin: 0 2px; }
+        .pmrs-nav .nav-link:hover { color: #fff !important; background: rgba(255,255,255,.1); }
+        .pmrs-nav .nav-link.active { color: #fff !important; background: var(--pmrs-accent); }
+        .pmrs-main { padding: 1.5rem 1.5rem 2rem; max-width: 1400px; margin: 0 auto; }
+        .pmrs-page-title { font-size: 1.35rem; font-weight: 700; color: #1e293b; margin-bottom: 1.25rem; }
+        .pmrs-card { background: var(--pmrs-surface); border-radius: 12px; border: 1px solid var(--pmrs-border); box-shadow: 0 1px 2px rgba(0,0,0,.04); }
+        .pmrs-btn-primary { background: var(--pmrs-accent); border-color: var(--pmrs-accent); font-weight: 600; }
+        .pmrs-btn-primary:hover { background: var(--pmrs-accent-hover); border-color: var(--pmrs-accent-hover); }
+        .pmrs-table th { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--pmrs-muted); border-bottom: 1px solid var(--pmrs-border); }
+        .pmrs-table td { vertical-align: middle; }
+        .pmrs-badge { font-weight: 500; padding: 0.25em 0.6em; border-radius: 6px; }
+        .pmrs-alert { border-radius: 10px; border: none; }
+        .fw-500 { font-weight: 500; }
+        .fw-600 { font-weight: 600; }
+    </style>
+</head>
+<body>
+@if (User.Identity?.IsAuthenticated == true)
+{
+    <nav class="navbar navbar-expand-lg pmrs-nav">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-controller="Dashboard" asp-action="Index"><i class="bi bi-clipboard2-pulse me-2 opacity-90"></i>PMRS</a>
+            <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#pmrsNav" aria-controls="pmrsNav" aria-expanded="false" aria-label="Toggle navigation"><i class="bi bi-list fs-4"></i></button>
+            <div class="collapse navbar-collapse" id="pmrsNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Dashboard" ? "active" : "")" asp-controller="Dashboard" asp-action="Index">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Patients" ? "active" : "")" asp-controller="Patients" asp-action="Index">Patients</a></li>
+                    <li class="nav-item"><a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Appointments" ? "active" : "")" asp-controller="Appointments" asp-action="Index">Appointments</a></li>
+                    <li class="nav-item"><a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "MedicalRecords" ? "active" : "")" asp-controller="MedicalRecords" asp-action="Index">Records</a></li>
+                    <li class="nav-item"><a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Prescriptions" ? "active" : "")" asp-controller="Prescriptions" asp-action="Index">Prescriptions</a></li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item"><a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Doctors" ? "active" : "")" asp-controller="Doctors" asp-action="Index">Doctors</a></li>
+                    }
+                </ul>
+                <div class="d-flex align-items-center gap-2">
+                    <span class="text-white-50 small">@User.Identity.Name</span>
+                    <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">@Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-sm btn-outline-light rounded-6">Sign out</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+}
+<div class="@(User.Identity?.IsAuthenticated == true ? "pmrs-main" : "")">
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show pmrs-alert" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>@TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show pmrs-alert" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>@TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    @RenderBody()
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

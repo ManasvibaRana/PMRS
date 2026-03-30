@@ -1,0 +1,16 @@
+@{ ViewData["Title"] = "New record"; var patients = ViewBag.Patients as PaginatedList<Patient>; var doctors = ViewBag.Doctors as List<Doctor>; }
+<h1 class="pmrs-page-title">New medical record</h1>
+<div class="pmrs-card p-4">
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        <div class="mb-3"><label class="form-label small fw-500">Patient</label><select name="patientId" class="form-select form-select-sm rounded-2" required>@foreach (var p in patients?.Items ?? new List<Patient>()) { <option value="@p.Id">@p.FullName</option> }</select></div>
+        <div class="mb-3"><label class="form-label small fw-500">Doctor</label><select name="doctorId" class="form-select form-select-sm rounded-2" required>@foreach (var d in doctors ?? new List<Doctor>()) { <option value="@d.Id">@d.FullName</option> }</select></div>
+        <div class="mb-3"><label class="form-label small fw-500">Type</label><select name="recordType" class="form-select form-select-sm rounded-2" asp-items="Html.GetEnumSelectList<RecordType>()"></select></div>
+        <div class="mb-3"><label class="form-label small fw-500">Title</label><input name="title" class="form-control form-control-sm rounded-2" required /></div>
+        <div class="mb-3"><label class="form-label small fw-500">Content</label><textarea name="content" class="form-control form-control-sm rounded-2" rows="4" required></textarea></div>
+        <div class="mb-3"><label class="form-label small fw-500">Diagnosis</label><input name="diagnosis" class="form-control form-control-sm rounded-2" /></div>
+        <div class="mb-3"><label class="form-label small fw-500">Treatment</label><input name="treatment" class="form-control form-control-sm rounded-2" /></div>
+        <button type="submit" class="btn pmrs-btn-primary rounded-2">Save</button>
+        <a asp-action="Index" class="btn btn-outline-secondary rounded-2">Cancel</a>
+    </form>
+</div>

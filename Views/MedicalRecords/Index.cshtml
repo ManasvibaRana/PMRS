@@ -1,0 +1,19 @@
+@model PaginatedList<MedicalRecord>
+@{ ViewData["Title"] = "Medical records"; }
+<h1 class="pmrs-page-title">Medical records</h1>
+<div class="pmrs-card p-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <span></span>
+        <a asp-action="Create" class="btn btn-sm pmrs-btn-primary rounded-2">+ New record</a>
+    </div>
+    <div class="table-responsive">
+        <table class="table pmrs-table">
+            <thead><tr><th>Title</th><th>Patient</th><th>Doctor</th><th>Type</th><th>Date</th><th></th></tr></thead>
+            <tbody>
+            @foreach (var m in Model.Items) { <tr><td class="fw-600">@m.Title</td><td>@m.Patient.FullName</td><td class="text-muted small">@m.Doctor.FullName</td><td><span class="pmrs-badge bg-light text-dark">@m.RecordType</span></td><td class="small">@m.RecordedAt.ToString("MMM dd, yyyy")</td><td><a asp-action="Details" asp-route-id="@m.Id" class="btn btn-sm btn-outline-primary rounded-2">View</a></td></tr> }
+            @if (!Model.Items.Any()) { <tr><td colspan="6" class="text-center text-muted py-5">No records.</td></tr> }
+            </tbody>
+        </table>
+    </div>
+    @if (Model.TotalPages > 1) { <nav class="mt-3"><ul class="pagination pagination-sm justify-content-center mb-0">@for (int i = 1; i <= Model.TotalPages; i++) { <li class="page-item @(i == Model.PageNumber ? "active" : "")"><a class="page-link rounded-2 mx-1" asp-action="Index" asp-route-pageNumber="@i" asp-route-patientId="@Context.Request.Query["patientId"]">@i</a></li> }</ul></nav> }
+</div>

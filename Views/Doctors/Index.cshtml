@@ -1,0 +1,18 @@
+@model List<Doctor>
+@{ ViewData["Title"] = "Doctors"; }
+<h1 class="pmrs-page-title">Doctors</h1>
+<div class="pmrs-card p-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <span></span>
+        <a asp-action="Create" class="btn btn-sm pmrs-btn-primary rounded-2">+ Add doctor</a>
+    </div>
+    <div class="table-responsive">
+        <table class="table pmrs-table">
+            <thead><tr><th>Name</th><th>Specialisation</th><th>License</th><th>Email</th><th>Phone</th></tr></thead>
+            <tbody>
+            @foreach (var d in Model) { <tr><td class="fw-600">@d.FullName</td><td>@d.Specialisation</td><td><code class="small">@d.LicenseNumber</code></td><td>@d.Email</td><td>@d.Phone</td></tr> }
+            @if (!Model.Any()) { <tr><td colspan="5" class="text-center text-muted py-5">No doctors.</td></tr> }
+            </tbody>
+        </table>
+    </div>
+</div>

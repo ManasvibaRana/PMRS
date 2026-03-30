@@ -1,0 +1,18 @@
+@{ ViewData["Title"] = "New prescription"; var patients = ViewBag.Patients as PaginatedList<Patient>; var doctors = ViewBag.Doctors as List<Doctor>; }
+<h1 class="pmrs-page-title">New prescription</h1>
+<div class="pmrs-card p-4">
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        <div class="mb-3"><label class="form-label small fw-500">Patient</label><select name="patientId" class="form-select form-select-sm rounded-2" required>@foreach (var p in patients?.Items ?? new List<Patient>()) { <option value="@p.Id">@p.FullName</option> }</select></div>
+        <div class="mb-3"><label class="form-label small fw-500">Doctor</label><select name="doctorId" class="form-select form-select-sm rounded-2" required>@foreach (var d in doctors ?? new List<Doctor>()) { <option value="@d.Id">@d.FullName</option> }</select></div>
+        <div class="mb-3"><label class="form-label small fw-500">Expires (optional)</label><input name="expiresAt" type="date" class="form-control form-control-sm rounded-2" /></div>
+        <div class="mb-3"><label class="form-label small fw-500">Notes</label><input name="notes" class="form-control form-control-sm rounded-2" /></div>
+        <hr class="my-3" />
+        <h6 class="fw-600 mb-2">Medication</h6>
+        <div class="row g-2 mb-2"><div class="col"><label class="form-label small fw-500">Name</label><input name="medicationName" class="form-control form-control-sm rounded-2" required /></div><div class="col"><label class="form-label small fw-500">Dosage</label><input name="dosage" class="form-control form-control-sm rounded-2" required /></div></div>
+        <div class="row g-2 mb-2"><div class="col"><label class="form-label small fw-500">Frequency</label><input name="frequency" class="form-control form-control-sm rounded-2" placeholder="e.g. twice daily" required /></div><div class="col"><label class="form-label small fw-500">Duration (days)</label><input name="durationDays" type="number" value="7" class="form-control form-control-sm rounded-2" /></div><div class="col"><label class="form-label small fw-500">Quantity</label><input name="quantity" type="number" value="1" class="form-control form-control-sm rounded-2" /></div></div>
+        <div class="mb-3"><label class="form-label small fw-500">Instructions</label><input name="instructions" class="form-control form-control-sm rounded-2" /></div>
+        <button type="submit" class="btn pmrs-btn-primary rounded-2">Create</button>
+        <a asp-action="Index" class="btn btn-outline-secondary rounded-2">Cancel</a>
+    </form>
+</div>

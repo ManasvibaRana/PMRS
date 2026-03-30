@@ -1,0 +1,14 @@
+@{ ViewData["Title"] = "Add doctor"; }
+<h1 class="pmrs-page-title">Add doctor</h1>
+<div class="pmrs-card p-4">
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        <div class="row g-2 mb-3"><div class="col"><label class="form-label small fw-500">First name</label><input name="firstName" class="form-control form-control-sm rounded-2" required /></div><div class="col"><label class="form-label small fw-500">Last name</label><input name="lastName" class="form-control form-control-sm rounded-2" required /></div></div>
+        <div class="mb-3"><label class="form-label small fw-500">Specialisation</label><input name="specialisation" class="form-control form-control-sm rounded-2" required /></div>
+        <div class="mb-3"><label class="form-label small fw-500">License number</label><input name="licenseNumber" class="form-control form-control-sm rounded-2" required /></div>
+        <div class="mb-3"><label class="form-label small fw-500">Email</label><input name="email" type="email" class="form-control form-control-sm rounded-2" required /></div>
+        <div class="mb-3"><label class="form-label small fw-500">Phone</label><input name="phone" class="form-control form-control-sm rounded-2" required /></div>
+        <button type="submit" class="btn pmrs-btn-primary rounded-2">Save</button>
+        <a asp-action="Index" class="btn btn-outline-secondary rounded-2">Cancel</a>
+    </form>
+</div>

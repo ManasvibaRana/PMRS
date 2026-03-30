@@ -1,0 +1,13 @@
+@{ ViewData["Title"] = "New appointment"; var patients = ViewBag.Patients as PaginatedList<Patient>; var doctors = ViewBag.Doctors as List<Doctor>; }
+<h1 class="pmrs-page-title">Schedule appointment</h1>
+<div class="pmrs-card p-4">
+    <form asp-action="Create" method="post">@Html.AntiForgeryToken()
+        <div class="mb-3"><label class="form-label small fw-500">Patient</label><select name="patientId" class="form-select form-select-sm rounded-2" required>@foreach (var p in patients?.Items ?? new List<Patient>()) { <option value="@p.Id">@p.FullName (@p.PatientNumber)</option> }</select></div>
+        <div class="mb-3"><label class="form-label small fw-500">Doctor</label><select name="doctorId" class="form-select form-select-sm rounded-2" required>@foreach (var d in doctors ?? new List<Doctor>()) { <option value="@d.Id">@d.FullName</option> }</select></div>
+        <div class="row g-2 mb-3"><div class="col"><label class="form-label small fw-500">Date & time</label><input name="scheduledAt" type="datetime-local" class="form-control form-control-sm rounded-2" required /></div><div class="col"><label class="form-label small fw-500">Duration (min)</label><input name="durationMinutes" type="number" value="30" class="form-control form-control-sm rounded-2" /></div></div>
+        <div class="mb-3"><label class="form-label small fw-500">Chief complaint</label><input name="chiefComplaint" class="form-control form-control-sm rounded-2" required /></div>
+        <div class="mb-3"><label class="form-label small fw-500">Notes</label><textarea name="notes" class="form-control form-control-sm rounded-2" rows="2"></textarea></div>
+        <button type="submit" class="btn pmrs-btn-primary rounded-2">Schedule</button>
+        <a asp-action="Index" class="btn btn-outline-secondary rounded-2">Cancel</a>
+    </form>
+</div>

@@ -1,0 +1,22 @@
+@model Prescription
+@{ ViewData["Title"] = "Prescription"; }
+<h1 class="pmrs-page-title">@Model.PrescriptionNumber <span class="pmrs-badge @(Model.Status == PrescriptionStatus.Active ? "bg-success bg-opacity-10 text-success" : "bg-secondary bg-opacity-10 text-secondary") ms-2">@Model.Status</span></h1>
+<div class="pmrs-card p-4">
+    @if (Model.Status == PrescriptionStatus.Active)
+    {
+        <form asp-action="UpdateStatus" asp-route-id="@Model.Id" method="post" class="d-inline mb-3">@Html.AntiForgeryToken()<input type="hidden" name="status" value="@((int)PrescriptionStatus.Dispensed)" /><button type="submit" class="btn btn-sm btn-outline-success rounded-2">Mark dispensed</button></form>
+    }
+    <p class="small text-muted mb-1">Patient <a asp-controller="Patients" asp-action="Details" asp-route-id="@Model.PatientId">@Model.Patient.FullName</a> · Doctor @Model.Doctor.FullName</p>
+    <p class="small text-muted mb-2">Issued @Model.IssuedAt.ToString("MMM dd, yyyy") · Expires @Model.ExpiresAt.ToString("MMM dd, yyyy")</p>
+    @if (!string.IsNullOrEmpty(Model.Notes)) { <p class="small mb-2">@Model.Notes</p> }
+    <h6 class="fw-600 mt-3">Medications</h6>
+    <div class="table-responsive">
+        <table class="table pmrs-table">
+            <thead><tr><th>Medication</th><th>Dosage</th><th>Frequency</th><th>Duration</th><th>Qty</th></tr></thead>
+            <tbody>
+            @foreach (var i in Model.Items) { <tr><td>@i.MedicationName</td><td>@i.Dosage</td><td>@i.Frequency</td><td>@i.DurationDays days</td><td>@i.Quantity</td></tr> }
+            </tbody>
+        </table>
+    </div>
+    <a asp-action="Index" class="btn btn-outline-secondary rounded-2 mt-2">Back to list</a>
+</div>

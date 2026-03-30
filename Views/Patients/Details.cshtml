@@ -1,0 +1,40 @@
+@model Patient
+@{ ViewData["Title"] = "Patient"; }
+<h1 class="pmrs-page-title">@Model.FullName <span class="badge bg-light text-dark border ms-2">@Model.PatientNumber</span></h1>
+<div class="pmrs-card p-4">
+    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-4">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <p class="mb-1 small text-muted">DOB / Age / Gender</p>
+                <p class="mb-0">@Model.DateOfBirth.ToString("yyyy-MM-dd") · @Model.Age years · @Model.Gender</p>
+            </div>
+            <div class="col-md-6">
+                <p class="mb-1 small text-muted">Contact</p>
+                <p class="mb-0">@Model.Email · @Model.Phone</p>
+            </div>
+            <div class="col-md-6">
+                <p class="mb-1 small text-muted">Blood type · Status</p>
+                <p class="mb-0">@(Model.BloodType ?? "—") · <span class="pmrs-badge @(Model.IsActive ? "bg-success bg-opacity-10 text-success" : "bg-secondary")">@(Model.IsActive ? "Active" : "Inactive")</span></p>
+            </div>
+            <div class="col-md-6">
+                <p class="mb-1 small text-muted">Address</p>
+                <p class="mb-0 small">@Model.Address.Street, @Model.Address.City, @Model.Address.State @Model.Address.PostalCode</p>
+            </div>
+            <div class="col-12">
+                <p class="mb-1 small text-muted">Emergency · Allergies · Chronic</p>
+                <p class="mb-0 small">@(Model.EmergencyContactName ?? "—") @(Model.EmergencyContactPhone != null ? "· " + Model.EmergencyContactPhone : "") · @(Model.Allergies ?? "—") · @(Model.ChronicConditions ?? "—")</p>
+            </div>
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary rounded-2">Edit</a>
+            <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="d-inline" onsubmit="return confirm('Deactivate this patient?');">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-outline-danger rounded-2">Deactivate</button>
+            </form>
+        </div>
+    </div>
+    <hr class="my-3" />
+    <a asp-controller="Appointments" asp-action="Create" class="btn btn-sm pmrs-btn-primary rounded-2 me-2">New appointment</a>
+    <a asp-controller="MedicalRecords" asp-action="Index" asp-route-patientId="@Model.Id" class="btn btn-sm btn-outline-secondary rounded-2 me-2">Records</a>
+    <a asp-controller="Prescriptions" asp-action="Index" asp-route-patientId="@Model.Id" class="btn btn-sm btn-outline-secondary rounded-2">Prescriptions</a>
+</div>

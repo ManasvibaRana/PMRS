@@ -1,0 +1,29 @@
+@model PatientFormViewModel
+<div class="row g-2 mb-2">
+    <div class="col"><label asp-for="FirstName" class="form-label small fw-500"></label><input asp-for="FirstName" class="form-control form-control-sm rounded-2" /></div>
+    <div class="col"><label asp-for="LastName" class="form-label small fw-500"></label><input asp-for="LastName" class="form-control form-control-sm rounded-2" /></div>
+</div>
+<div class="row g-2 mb-2">
+    <div class="col"><label asp-for="DateOfBirth" class="form-label small fw-500"></label><input asp-for="DateOfBirth" class="form-control form-control-sm rounded-2" type="date" /></div>
+    <div class="col"><label asp-for="Gender" class="form-label small fw-500"></label><select asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()" class="form-select form-select-sm rounded-2"></select></div>
+</div>
+<div class="mb-2"><label asp-for="Email" class="form-label small fw-500"></label><input asp-for="Email" class="form-control form-control-sm rounded-2" /><span asp-validation-for="Email" class="text-danger small"></span></div>
+<div class="mb-2"><label asp-for="Phone" class="form-label small fw-500"></label><input asp-for="Phone" class="form-control form-control-sm rounded-2" /><span asp-validation-for="Phone" class="text-danger small"></span></div>
+<div class="row g-2 mb-2">
+    <div class="col"><label asp-for="BloodType" class="form-label small fw-500"></label><input asp-for="BloodType" class="form-control form-control-sm rounded-2" /></div>
+    <div class="col"><label asp-for="EmergencyContactName" class="form-label small fw-500"></label><input asp-for="EmergencyContactName" class="form-control form-control-sm rounded-2" /></div>
+    <div class="col"><label asp-for="EmergencyContactPhone" class="form-label small fw-500"></label><input asp-for="EmergencyContactPhone" class="form-control form-control-sm rounded-2" /></div>
+</div>
+<div class="mb-2"><label asp-for="Street" class="form-label small fw-500"></label><input asp-for="Street" class="form-control form-control-sm rounded-2" /></div>
+<div class="row g-2 mb-2">
+    <div class="col"><input asp-for="City" class="form-control form-control-sm rounded-2" placeholder="City" /></div>
+    <div class="col"><input asp-for="State" class="form-control form-control-sm rounded-2" placeholder="State" /></div>
+    <div class="col"><input asp-for="PostalCode" class="form-control form-control-sm rounded-2" placeholder="Postal" /></div>
+    <div class="col"><input asp-for="Country" class="form-control form-control-sm rounded-2" placeholder="Country" /></div>
+</div>
+<div class="mb-2"><label asp-for="Allergies" class="form-label small fw-500"></label><input asp-for="Allergies" class="form-control form-control-sm rounded-2" /></div>
+<div class="mb-2"><label asp-for="ChronicConditions" class="form-label small fw-500"></label><input asp-for="ChronicConditions" class="form-control form-control-sm rounded-2" /></div>
+@if (Model.Id.HasValue)
+{
+    <div class="form-check mb-2"><input asp-for="IsActive" class="form-check-input" /><label asp-for="IsActive" class="form-check-label small"></label></div>
+}

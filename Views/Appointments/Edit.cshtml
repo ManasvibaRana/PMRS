@@ -1,0 +1,15 @@
+@model Appointment
+@{ ViewData["Title"] = "Edit appointment"; }
+<h1 class="pmrs-page-title">Edit @Model.AppointmentNumber</h1>
+<div class="pmrs-card p-4">
+    <form asp-action="Edit" asp-route-id="@Model.Id" method="post">
+        @Html.AntiForgeryToken()
+        <div class="mb-3"><label class="form-label small fw-500">Date & time</label><input name="scheduledAt" type="datetime-local" class="form-control form-control-sm rounded-2" value="@Model.ScheduledAt.ToString("yyyy-MM-ddTHH:mm")" required /></div>
+        <div class="mb-3"><label class="form-label small fw-500">Duration (min)</label><input name="durationMinutes" type="number" value="@Model.DurationMinutes" class="form-control form-control-sm rounded-2" /></div>
+        <div class="mb-3"><label class="form-label small fw-500">Chief complaint</label><input name="chiefComplaint" class="form-control form-control-sm rounded-2" value="@Model.ChiefComplaint" required /></div>
+        <div class="mb-3"><label class="form-label small fw-500">Notes</label><textarea name="notes" class="form-control form-control-sm rounded-2" rows="2">@Model.Notes</textarea></div>
+        <div class="mb-3"><label class="form-label small fw-500">Status</label><select name="status" class="form-select form-select-sm rounded-2">@foreach (var s in Enum.GetValues<AppointmentStatus>()) { <option value="@((int)s)" selected="@(s == Model.Status)">@s</option> }</select></div>
+        <button type="submit" class="btn pmrs-btn-primary rounded-2">Update</button>
+        <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary rounded-2">Cancel</a>
+    </form>
+</div>

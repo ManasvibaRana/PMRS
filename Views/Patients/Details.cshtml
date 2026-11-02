@@ -14,7 +14,7 @@
             </div>
             <div class="col-md-6">
                 <p class="mb-1 small text-muted">Blood type · Status</p>
-                <p class="mb-0">@(Model.BloodType ?? "—") · <span class="pmrs-badge @(Model.IsActive ? "bg-success bg-opacity-10 text-success" : "bg-secondary")">@(Model.IsActive ? "Active" : "Inactive")</span></p>
+                <p class="mb-0">@(Model.BloodType ?? "-") · <span class="pmrs-badge @(Model.IsActive ? "bg-success bg-opacity-10 text-success" : "bg-secondary")">@(Model.IsActive ? "Active" : "Inactive")</span></p>
             </div>
             <div class="col-md-6">
                 <p class="mb-1 small text-muted">Address</p>
@@ -22,7 +22,7 @@
             </div>
             <div class="col-12">
                 <p class="mb-1 small text-muted">Emergency · Allergies · Chronic</p>
-                <p class="mb-0 small">@(Model.EmergencyContactName ?? "—") @(Model.EmergencyContactPhone != null ? "· " + Model.EmergencyContactPhone : "") · @(Model.Allergies ?? "—") · @(Model.ChronicConditions ?? "—")</p>
+                <p class="mb-0 small">@(Model.EmergencyContactName ?? "-") @(Model.EmergencyContactPhone != null ? "· " + Model.EmergencyContactPhone : "") · @(Model.Allergies ?? "-") · @(Model.ChronicConditions ?? "-")</p>
             </div>
         </div>
         <div class="d-flex gap-2">
